@@ -1,0 +1,10 @@
+﻿#ctest {
+    position: absolute;
+    top: 50px;
+    left:0px;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+}

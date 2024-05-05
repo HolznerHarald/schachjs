@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>
+        Meine erstes Schachprogramm
+    </title>
+    <meta charset="UTF-8">
+    <meta name="author" content="Harald Holzner">
+    <link rel="stylesheet" href="schach.css" />
+    
+</head>
+<body>
+    <script src="sch1.js"></script>
+    <p id="p1"></p>
+
+    <div id="ctest">
+    </div>
+
+    <script>
+        // SFeld 8 x 8 initialisieren mit "l"  (leer) für Farbe und "l" für Figur
+        //<div id="ctest" onclick="f1(2)">
+        let sFeld = new Array(8);
+        for (let i = 0; i < sFeld.length; i++) {
+            sFeld[i] = new Array(8);
+        }
+        for (let i = 0; i < 8; i++) {
+            for (let jj = 0; jj < 8; jj++) {
+                sFeld[i][jj] = new Array(2);
+                sFeld[i][jj][0] = "l";
+                sFeld[i][jj][1] = "l";
+            }
+        }
+
+        //weiss und schawarz Array mit 16 Feldern initialisieren mit "0" für Figur und  0,0 für Position
+        wFig = [["0", 0, 0]];
+        sFig = [["0", 0, 0]];
+        ff = ["0", 0, 0];
+        for (var i = 0; i < 15; i++) {
+            wFig.push(ff);
+            sFig.push(ff);
+        }
+        // Stellung initialisieren
+        var Stell1 = [["b", 1, 1], ["b", 8, 1]];
+        wFig = Stell1;
+
+        // sFeld mit weissen und schwarzen Figuren füllen
+        for (var ii = 0; ii < wFig.length; ii++) {
+            if (wFig[ii][0] != "l" && wFig[ii][1] != 0 && wFig[ii][2] != 0) {
+                sFeld[wFig[ii][1] - 1][wFig[ii][2] - 1][0] = "w";
+                sFeld[wFig[ii][1] - 1][wFig[ii][2] - 1][1] = wFig[ii][0];
+            }
+        }
+        for (var ii = 0; ii < wFig.length; ii++) {
+            if (sFig[ii][0] != "l" && sFig[ii][1] != 0 && sFig[ii][2] != 0) {
+                sFeld[sFig[ii][1] - 1][sFig[ii][2] - 1][0] = "w";
+                sFeld[sFig[ii][1] - 1][sFig[ii][2] - 1][1] = sFig[ii][0];
+            }
+        }
+
+        //TestAusgabe in p1
+        document.getElementById("p1").innerText = sFeld[0][0][1];
+        //document.getElementById("p1").innerText = wFig[0][2];
+
+        // die 64 img-Felder erstellen und füllen mit sFeld
+        for (let jj = 0; jj < 8; jj++) {
+            for (let i = 0; i < 8; i++) {
+                para = document.createElement("img");
+                
+                hs = "figuren\\" + sFeld[i][jj][0] + sFeld[i][jj][1] +  ".png";
+                para.src = hs;
+                if ((i + jj) % 2 == 1)
+                    para.style.backgroundColor = "#FFFF00";
+                else
+                    para.style.backgroundColor = "#FF0000";
+
+                //para.style.backgroundColor = "#FFFF00";
+                z = i + jj * 8;
+                para.id = "ID"+z;
+                //geht net: para.onclick = f1(i+jj);
+                // geht: para.onclick = function () {document.getElementById("p1").innerHTML = i;}; 
+                para.onclick = function () {f1(i,jj )}; 
+                para.style.position = "absolute";
+                para.style.top = 50 * jj + "px"
+                para.style.left = 50 * i + "px";
+                document.getElementById("ctest").appendChild(para);
+            }
+        }
+        //Test
+       // document.getElementById("ID1").style.backgroundColor = "#FFFFFF";
+       
+        
+    </script>
+
+
+</body>
+</html >
