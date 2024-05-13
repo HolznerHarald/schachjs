@@ -1,15 +1,16 @@
 // JavaScript source code
 class Stellung {
-    constructor(Feld, AmZug, eben, sZug, MW) {
+    constructor(Feld, AmZug, eben, sZug) {
         this.wk = [-1, -1];
         this.bk = [-1, -1];
         this.ek = [-1, -1];
-        this.lZuege=[];
+        this.lZuege = [];
+        this.lStell = [];
+        this.Status = "NN";
+        this.Zugfolge = "";
                 
-        document.getElementById("p1").innerText += eben +" ";
+        //document.getElementById("p1").innerText += "E"+eben;
       //  document.getElementById("p1").innerText += "constructor";
-
-        this.MW = MW;
         this.Feld = Feld;
         this.AmZug = AmZug;
         this.Zugfolge = sZug;
@@ -29,7 +30,99 @@ class Stellung {
 
         this.FindeZuege();
         this.LoescheUngueltige();
-        document.getElementById("p1").innerHTML += " " + this.lZuege.length;
+        //document.getElementById("p1").innerHTML += "L" + this.lZuege.length;
+    }
+
+    Stell2() {
+        if (this.lZuege.length == 0) {
+            AnzVar++;
+            if (this.feldImSchach(this.ek, this.Gegner, this.Feld))
+                this.Status = "MM";
+            else
+                this.Status = "PP";
+        }
+        else if (this.Ebene == MattNachTeilzuegen) {
+            this.Status = "UU";
+            AnzVar++;
+        }
+        else {   // Mögliche Folge-Objekte Stellung erzeugen und daraus this.Status berechnen
+            for (let ii = 0; ii < this.lZuege.length; ii++)
+
+            {     
+                //   TEST !!! if (this.Ebene == 1) 
+                //    document.getElementById("p1").innerText += "Y" + AnzVar.toString(); 
+                let fFeld = this.ErzeugeStell(this.lZuege[ii]);
+                    //Umwandeln ZugFolge
+                let SZug = this.fZugfolge(ii);
+                                        
+                let hstell = new Stellung(fFeld, this.Gegner, this.Ebene + 1, SZug);
+                hstell.Stell2();
+                this.lStell.push(hstell);
+                if (NurSolangeNotwendig) {
+                    if (this.AmZug == 'b' && hstell.Status[0] != 'M')
+                        break;
+                }
+            }
+            //Status bestimmen
+            if (this.AmZug == 'w') {
+                this.Status = "NM";
+                for (let ii = 0; ii < this.lStell.length; ii++)
+                {
+                    if (this.lStell[ii].Status[0] == 'M')
+                        this.Status = "M0";
+
+                    else
+                        this.lStell[ii] = null;
+                }
+            }
+            else  // 'b'
+            {
+                this.Status = "M0";
+                for (let ii = 0; ii < this.lStell.length; ii++)
+                {
+                    if (this.lStell[ii].Status[0] != 'M')
+                        this.Status = "NM";
+                }
+            }
+            if (this.Status == "NM") {
+                for (let ii = 0; ii < this.lStell.length; ii++)
+                    this.lStell[ii] = null;
+            }
+        }        
+    }
+    fZugfolge(ii) {
+        let zug = this.Zugfolge + this.AmZug + this.lZuege[ii][0].toString() + this.lZuege[ii][1].toString() + this.lZuege[ii][2].toString() + this.lZuege[ii][3].toString();
+
+        if (this.lZuege[ii].length > 4) {
+            switch (this.lZuege[ii][4]) {
+                case 1:
+                    zug += 'Q';
+                    break;
+                case 2:
+                    zug += 'R';
+                    break;
+                case 3:
+                    zug += 'B';
+                    break;
+                case 4:
+                    zug += 'N';
+                    break;
+            }
+        }
+
+        return zug;
+    }
+
+    MattAnzeigen() {
+        if (this.Status === "M0") {
+            for (let ii = 0; ii < this.lStell.length; ii++) {
+                if (this.lStell[ii] !== null) {
+                    this.lStell[ii].MattAnzeigen();
+                }
+            }
+        } else if (this.Status === "MM") {            
+            document.getElementById("p1").innerText = "M" + this.Zugfolge +"\n" + document.getElementById("p1").innerText;
+        }
     }
 
     feldcheck() {
@@ -302,7 +395,7 @@ class Stellung {
         for (let ii = 0; ii < 8; ii++) {
             if (FeldaufBrett3([yy, xx], SprZug[ii][0], SprZug[ii][1])) {
                 let hf = this.Feld[yy + SprZug[ii][0]][xx + SprZug[ii][1]];
-                if (hf === "ll" || hf[0] === Gegner) {
+                if (hf === "ll" || hf[0] === this.Gegner) {
                     let hZug = [yy, xx, yy + SprZug[ii][0], xx + SprZug[ii][1]];
                     this.lZuege.push(hZug);
                 }

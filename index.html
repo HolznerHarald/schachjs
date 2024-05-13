@@ -9,17 +9,36 @@
     <link rel="stylesheet" href="schach.css" />
     
 </head>
-<body>
+<body>   
+
+    <div id="container">
+        <button id="Leeren" type="button" onclick="Leeren()">Feld leeren</button>
+        <button id="Loesen!" type="button" onclick="Loesen()">Loesen</button>
+        <label for="MattIn"></label>
+        <select onchange="onch()" name="MattIn" id="MattIn">
+            <option value="M1">Matt in 1</option>
+            <option value="M2">Matt in 2</option>
+            <option value="M3">Matt in 3</option>
+            <option value="M4">Matt in 4</option>
+            <option value="M5">Matt in 5</option>
+            <option value="M6">Matt in 6</option>
+            <option value="M7">Matt in 7</option>
+            <option value="M8">Matt in 8</option>
+            <option value="M9">Matt in 9</option>
+            <option value="M10">Matt in 10</option>
+            
+        </select>
+    </div>
     <p id="p1"></p>
 
     <div id="ctest">
     </div>
-
-    <script src="Stell.js"></script>
-    <script src="sch1.js"></script>
     <script>
 
     </script>
+    <script src="Stell.js"></script>
+    <script src="sch1.js"></script>
+
 
 
 </body>
