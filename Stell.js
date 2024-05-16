@@ -120,8 +120,9 @@ class Stellung {
                     this.lStell[ii].MattAnzeigen();
                 }
             }
-        } else if (this.Status === "MM") {            
-            document.getElementById("p1").innerText = "M" + this.Zugfolge +"\n" + document.getElementById("p1").innerText;
+        } else if (this.Status === "MM") {  
+            AnzLoesungen = AnzLoesungen + 1;
+            document.getElementById("p1").innerText = this.Zugfolge.substring(3) +"\n" + document.getElementById("p1").innerText;
         }
     }
 
