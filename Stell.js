@@ -134,16 +134,19 @@ class Stellung {
                 } else if (this.Feld[ii][jj][0] == "w" || this.Feld[ii][jj][0] == "b"){
                     let validPieces = "r,n,b,k,q,p";
                     if (validPieces.indexOf(this.Feld[ii][jj][1]) < 0) {
-                        document.getElementById("p1").innerText  += "Error1 Field:" + ii.toString() + jj.toString();
+                        document.getElementById("p1").innerText += "Error1 Field:" + ii.toString() + jj.toString();
+                        Fehlerhaft = true;
                         return false;
                     }
                 } else {
-                    document.getElementById("p1").innerText  += "Error2 Field:" + ii.toString() + jj.toString();
+                    document.getElementById("p1").innerText += "Error2 Field:" + ii.toString() + jj.toString();
+                    Fehlerhaft = true;
                     return false;
                 }
                 if (this.Feld[ii][jj] === "wk") {
                     if (this.wk[0] > -1) {
-                        document.getElementById("p1").innerText += "Error3 Field 2. König:" + ii.toString() + jj.toString();
+                        document.getElementById("p1").innerText += "Error3 Field 2. K\u00f6nig:" + ii.toString() + jj.toString();
+                        Fehlerhaft = true;
                         return false;
                     } else {
                         this.wk[0] = ii;
@@ -152,7 +155,8 @@ class Stellung {
                 }
                 if (this.Feld[ii][jj] === "bk") {
                     if (this.bk[0] > -1) {
-                        document.getElementById("p1").innerText  += "Error4 Field 2. König:" + ii.toString() + jj.toString();
+                        document.getElementById("p1").innerText += "Error4 Field 2. K\u00f6nig:" + ii.toString() + jj.toString();
+                        Fehlerhaft = true;
                         return false;
                     } else {
                         this.bk[0] = ii;
@@ -163,7 +167,8 @@ class Stellung {
         }
 
         if (this.wk[0] < 0 || this.bk[0] < 0) {
-            document.getElementById("p1").innerText += "Koenig fehlt";
+            document.getElementById("p1").innerText += "Error: K\u00f6nig fehlt";
+            Fehlerhaft = true;
             return false;
         }
         return true;
@@ -178,7 +183,8 @@ class Stellung {
         }
 
         if (this.feldImSchach(hk, this.AmZug, this.Feld)) {
-            document.getElementById("p1").innerText += "Opponent's king is already in check";
+            document.getElementById("p1").innerText += "Error: K\u00f6nig des Gegners bereits im Schach";
+            Fehlerhaft = true;
             return false;
         }
 

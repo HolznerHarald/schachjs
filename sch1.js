@@ -49,6 +49,7 @@ function init() {
     return hFeld;
 } 
 function Loesen() {
+    Fehlerhaft = false;
     AnzLoesungen = 0;
     AnzVar = 0;
     document.getElementById("p1").innerText = "";
@@ -56,11 +57,12 @@ function Loesen() {
     let currentTime = new Date();
     
     stell1.Stell2();
+    if (Fehlerhaft)
+        return;
     document.getElementById("p1").innerText = "Berechnete Varianten:" + AnzVar + document.getElementById("p1").innerText;
     stell1.MattAnzeigen();
 
-    document.getElementById("p1").innerText = "Anzahl Loesungen:" + AnzLoesungen + "\n" + document.getElementById("p1").innerText;
-
+    document.getElementById("p1").innerText = "Anzahl L\u00f6sungen:" + AnzLoesungen + "\n" + document.getElementById("p1").innerText;
 
     document.getElementById("p1").innerText += "\n" + "Rechenzeit:" + (new Date() - currentTime).toString() + "ms";
     //document.getElementById("p1").innerText += "\n" + "F";
@@ -216,6 +218,7 @@ document.getElementById("c2").style.height = hss;
 let sFeld = init()
 
 // die 64 img-Felder erstellen und füllen mit sFeld
+let Fehlerhaft = false;
 let AnzLoesungen = 0;
 let AnzVar = 0;
 let MattNachTeilzuegen = 4;
